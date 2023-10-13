@@ -21,7 +21,7 @@ class Pixel_image_optimizer extends Module implements WidgetInterface
     public function __construct()
     {
         $this->name = 'pixel_image_optimizer';
-        $this->version = '1.0.0';
+        $this->version = '1.0.1';
         $this->author = 'Pixel Open';
         $this->tab = 'front_office_features';
         $this->need_instance = 0;
@@ -35,7 +35,7 @@ class Pixel_image_optimizer extends Module implements WidgetInterface
             'Modules.Pixelimageoptimizer.Admin'
         );
         $this->description = $this->trans(
-            'Image optimizer module is an easy way to resize and compress images on the fly.',
+            'Image optimizer module is an easy way to resize and compress images on the fly. Use responsive images with size alternatives.',
             [],
             'Modules.Pixelimageoptimizer.Admin'
         );
@@ -62,7 +62,7 @@ class Pixel_image_optimizer extends Module implements WidgetInterface
     /*********************/
 
     /**
-     * Render the turnstile widget
+     * Render the widget
      *
      * @param string|null $hookName
      * @param string[] $configuration
@@ -99,6 +99,25 @@ class Pixel_image_optimizer extends Module implements WidgetInterface
                 $config['image_name'],
                 $config['ext']
             );
+            $configuration['sources'] = [];
+
+            if (isset($configuration['breakpoints'])) {
+                $breakpoints = explode(',', $configuration['breakpoints']);
+                foreach ($breakpoints as $breakpoint) {
+                    $width = (int)trim($breakpoint);
+                    if (!$width) {
+                        continue;
+                    }
+                    $configuration['sources'][] = $this->imageResize(
+                        $imagePath,
+                        $width,
+                        $config['height'],
+                        $config['quality'],
+                        $config['image_name'],
+                        $config['ext']
+                    );
+                }
+            }
         }
 
         $this->smarty->assign($this->getWidgetVariables($hookName, $configuration));
@@ -117,9 +136,10 @@ class Pixel_image_optimizer extends Module implements WidgetInterface
     public function getWidgetVariables($hookName, array $configuration): array
     {
         return [
-            'image' => $configuration['image'],
-            'class' => $configuration['class'] ?? '',
-            'alt'   => $configuration['alt'] ?? '',
+            'image'   => $configuration['image'],
+            'sources' => $configuration['sources'] ?? [],
+            'class'   => $configuration['class'] ?? '',
+            'alt'     => $configuration['alt'] ?? '',
         ];
     }
 

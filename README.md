@@ -6,7 +6,7 @@
 
 ## Presentation
 
-Image optimizer module is an easy way to resize and compress images on the fly.
+Image optimizer module is an easy way to resize and compress images on the fly. Use responsive images with size alternatives.
 
 ## Requirements
 
@@ -56,8 +56,11 @@ Move the downloaded file in the Prestashop **modules** directory and unzip the a
 - **width**: maximum width (optional)
 - **height**: maximum height (optional)
 - **ext**: convert image to jpg, png, gif or webp (optional)
+- **breakpoints**: Alternative widths of responsive images in px (e.g. "500,800,1200") (optional)
 
 ### Examples
+
+#### Product image
 
 ```smarty
 {foreach $product.images as $image}
@@ -72,10 +75,53 @@ Move the downloaded file in the Prestashop **modules** directory and unzip the a
 {/foreach}
 ```
 
+Result:
+
+```html
+<img src="https://www.example.com/img/web/my-product-name-750x562-80.jpg"
+     alt="Legend"
+     class="product-image"
+     width="750"
+     height="562"
+     loading="lazy" />
+```
+
+#### Simple image
+
 ```smarty
 {widget name='pixel_image_optimizer'
     image_path='img/cms/image.jpg'
     quality=90
     height=600
 }
+```
+
+Result:
+
+```html
+<img src="https://www.example.com/img/web/image-800x600-90.jpg"
+     width="800"
+     height="600"
+     loading="lazy" />
+```
+
+#### Responsive image
+
+```smarty
+{widget name='pixel_image_optimizer'
+    image_path='img/cms/image.jpg'
+    quality=90
+    width=1200
+    breakpoints='500,800'
+}
+```
+
+Result:
+
+```html
+<picture>
+    <source media="(max-width: 500px)" srcset="https://www.example.com/img/web/image-500x250-90.jpg" />
+    <source media="(max-width: 800px)" srcset="https://www.example.com/img/web/image-800x400-90.jpg" />
+    <img src="https://www.example.com/img/web/image-1200x600-90.jpg" loading="lazy" />
+</picture>
 ```
