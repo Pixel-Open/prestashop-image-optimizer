@@ -1,6 +1,11 @@
+## 1.0.2
+
+- Allow custom template file
+- Order sources by width desc
+
 ## 1.0.1
 
-- Allow responsive images withe size alternatives
+- Allow responsive images with size alternatives
 
 ## 1.0.0
 

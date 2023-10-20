@@ -21,7 +21,7 @@ class Pixel_image_optimizer extends Module implements WidgetInterface
     public function __construct()
     {
         $this->name = 'pixel_image_optimizer';
-        $this->version = '1.0.1';
+        $this->version = '1.0.2';
         $this->author = 'Pixel Open';
         $this->tab = 'front_office_features';
         $this->need_instance = 0;
@@ -108,7 +108,7 @@ class Pixel_image_optimizer extends Module implements WidgetInterface
                     if (!$width) {
                         continue;
                     }
-                    $configuration['sources'][] = $this->imageResize(
+                    $configuration['sources'][$width] = $this->imageResize(
                         $imagePath,
                         $width,
                         $config['height'],
@@ -118,11 +118,15 @@ class Pixel_image_optimizer extends Module implements WidgetInterface
                     );
                 }
             }
+
+            krsort($configuration['sources']);
         }
+
+        $template = $configuration['template'] ?? $this->templateFile;
 
         $this->smarty->assign($this->getWidgetVariables($hookName, $configuration));
 
-        return $this->fetch($this->templateFile);
+        return $this->fetch($template);
     }
 
     /**

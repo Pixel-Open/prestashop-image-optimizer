@@ -57,6 +57,7 @@ Move the downloaded file in the Prestashop **modules** directory and unzip the a
 - **height**: maximum height (optional)
 - **ext**: convert image to jpg, png, gif or webp (optional)
 - **breakpoints**: Alternative widths of responsive images in px (e.g. "500,800,1200") (optional)
+- **template**: custom template file
 
 ### Examples
 
@@ -120,8 +121,26 @@ Result:
 
 ```html
 <picture>
-    <source media="(max-width: 500px)" srcset="https://www.example.com/img/web/image-500x250-90.jpg" />
     <source media="(max-width: 800px)" srcset="https://www.example.com/img/web/image-800x400-90.jpg" />
+    <source media="(max-width: 500px)" srcset="https://www.example.com/img/web/image-500x250-90.jpg" />
     <img src="https://www.example.com/img/web/image-1200x600-90.jpg" loading="lazy" />
 </picture>
+```
+
+### Custom template
+
+You can create your own template to display image.
+
+Create a new template file in the **pixel_image_optimizer** directory for your theme:
+
+*themes/{themeName}/modules/pixel_image_optimizer/custom.tpl*
+
+Add the **template** option in the widget with the template path:
+
+```smarty
+{widget name='pixel_image_optimizer'
+    image_path='img/cms/image.jpg'
+    width=1200
+    template='module:pixel_image_optimizer/custom.tpl'
+}
 ```
