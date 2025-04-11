@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2023 Pixel Développement
+ * Copyright (C) 2025 Pixel Développement
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -13,6 +13,8 @@ use PrestaShop\PrestaShop\Core\Module\WidgetInterface;
 
 class Pixel_image_optimizer extends Module implements WidgetInterface
 {
+    public const CACHE_IMAGE_PATH = 'img' . DIRECTORY_SEPARATOR . 'web';
+
     protected $templateFile;
 
     /**
@@ -21,7 +23,7 @@ class Pixel_image_optimizer extends Module implements WidgetInterface
     public function __construct()
     {
         $this->name = 'pixel_image_optimizer';
-        $this->version = '1.0.2';
+        $this->version = '1.0.3';
         $this->author = 'Pixel Open';
         $this->tab = 'front_office_features';
         $this->need_instance = 0;
@@ -48,6 +50,16 @@ class Pixel_image_optimizer extends Module implements WidgetInterface
     }
 
     /**
+     * Install the module
+     *
+     * @return bool
+     */
+    public function install(): bool
+    {
+        return parent::install() && $this->registerHook('displayDashboardToolbarTopMenu');
+    }
+
+    /**
      * Use the new translation system
      *
      * @return bool
@@ -55,6 +67,41 @@ class Pixel_image_optimizer extends Module implements WidgetInterface
     public function isUsingNewTranslationSystem(): bool
     {
         return true;
+    }
+
+    /***********/
+    /** HOOKS **/
+    /***********/
+
+    /**
+     * Add toolbar buttons
+     *
+     * @param mixed[] $params
+     *
+     * @return string
+     * @throws Exception
+     */
+    public function hookDisplayDashboardToolbarTopMenu(array $params): string
+    {
+        $controller = $this->context->controller;
+        $allowed = $controller->controller_type === 'admin' && $controller->php_self === 'AdminPerformance';
+
+        if (!$allowed) {
+            return '';
+        }
+
+        $buttons = [
+            [
+                'label' => $this->trans('Clear Image Cache', [], 'Modules.Pixelimageoptimizer.Admin'),
+                'route' => 'admin_image_optimizer_clear_cache',
+                'class' => 'btn btn-info',
+                'icon'  => 'delete'
+            ]
+        ];
+
+        return $this->get('twig')->render('@Modules/' . $this->name . '/views/templates/admin/toolbar.html.twig', [
+            'buttons' => $buttons,
+        ]);
     }
 
     /*********************/
@@ -185,7 +232,7 @@ class Pixel_image_optimizer extends Module implements WidgetInterface
         int $quality = 100,
         string $newName = null,
         string $toExt = null,
-        string $folder = 'img' . DIRECTORY_SEPARATOR . 'web'
+        string $folder = self::CACHE_IMAGE_PATH
     ): ?array {
         if (!is_file($filepath)) {
             return null;

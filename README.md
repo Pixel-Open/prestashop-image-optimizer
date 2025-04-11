@@ -144,3 +144,9 @@ Add the **template** option in the widget with the template path:
     template='module:pixel_image_optimizer/custom.tpl'
 }
 ```
+
+## Clear image cache
+
+Manually remove the `img/web` directory content, or use the **Clear Image Cache** button from admin:
+
+*Advanced Parameters > Performance > Clear Image Cache*

@@ -1,0 +1,6 @@
+services:
+  pixel.image.optimizer.controller:
+    class: 'Pixel\Module\ImageOptimizer\Controller\Admin\ImageController'
+    arguments:
+      $translator: '@translator'
+    public: true

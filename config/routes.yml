@@ -1,0 +1,5 @@
+admin_image_optimizer_clear_cache:
+  path: /image-optimizer/clearCache
+  methods: [GET]
+  defaults:
+    _controller: 'pixel.image.optimizer.controller:clearCacheAction'

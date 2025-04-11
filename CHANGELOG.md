@@ -1,3 +1,7 @@
+## 1.0.3
+
+- Clear image cache from admin
+
 ## 1.0.2
 
 - Allow custom template file

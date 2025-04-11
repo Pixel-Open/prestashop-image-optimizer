@@ -1,5 +1,25 @@
 {
+  "name": "pixel-open/prestashop-image-optimizer",
+  "description": "Easy way to resize and compress images on the fly.",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Pixel",
+      "email": "contact@pixel-developpement.com"
+    }
+  ],
   "require": {
     "ext-gd": "*"
-  }
+  },
+  "autoload": {
+    "psr-4": {
+      "Pixel\\Module\\ImageOptimizer\\": "src/"
+    },
+    "exclude-from-classmap": []
+  },
+  "config": {
+    "preferred-install": "dist",
+    "prepend-autoloader": false
+  },
+  "type": "prestashop-module"
 }
