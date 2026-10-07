@@ -17,6 +17,7 @@ use PrestaShopBundle\Security\Annotation\AdminSecurity;
 use PrestaShopLogger;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Throwable;
 
 class ImageController extends FrameworkBundleAdminController
@@ -27,17 +28,20 @@ class ImageController extends FrameworkBundleAdminController
      *     redirectRoute="admin_performance"
      * )
      *
+     * The translator is injected in the action: on PrestaShop 8, the controller container does not hold it
+     *
      * @param Request $request
+     * @param TranslatorInterface $translator
      *
      * @return RedirectResponse
      */
-    public function clearCacheAction(Request $request): RedirectResponse
+    public function clearCacheAction(Request $request, TranslatorInterface $translator): RedirectResponse
     {
         try {
             (new ImageResizer(_PS_ROOT_DIR_, Pixel_image_optimizer::CACHE_IMAGE_PATH))->clear();
             $this->addMessage(
                 'success',
-                $this->trans('Image cache has been flushed', 'Modules.Pixelimageoptimizer.Admin')
+                $translator->trans('Image cache has been flushed', [], 'Modules.Pixelimageoptimizer.Admin')
             );
         } catch (Throwable $throwable) {
             $this->addMessage('error', $throwable->getMessage());
