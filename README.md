@@ -152,6 +152,37 @@ Result:
 
 The browser picks the best file for the displayed size and the screen density.
 
+#### Main image of the page
+
+The first visible image (hero, banner) must not be lazy loaded: it delays the display of the page (LCP).
+
+```smarty
+{widget name='pixel_image_optimizer'
+    image_url=$banner.image.url
+    alt=$banner.title
+    width=1920
+    ext='webp'
+    breakpoints='600,1200'
+    loading='eager'
+    fetchpriority='high'
+}
+```
+
+Result:
+
+```html
+<img src="https://www.example.com/img/web/banner-1920x800-85-1a2b3c4d.webp"
+     srcset="https://www.example.com/img/web/banner-600x250-85-1a2b3c4d.webp 600w,
+             https://www.example.com/img/web/banner-1200x500-85-1a2b3c4d.webp 1200w,
+             https://www.example.com/img/web/banner-1920x800-85-1a2b3c4d.webp 1920w"
+     sizes="100vw"
+     alt="Banner title"
+     width="1920"
+     height="800"
+     loading="eager"
+     fetchpriority="high" />
+```
+
 ### Custom template
 
 You can create your own template to display image.
@@ -177,3 +208,13 @@ Available variables: `$image` (`url`, `path`, `width`, `height`), `$sources` (al
 Manually remove the `img/web` directory content, or use the **Clear Image Cache** button from admin:
 
 *Advanced Parameters > Performance > Clear Image Cache*
+
+## Upgrade from 1.x
+
+Version 2.0.0 requires Prestashop 8.0+ and PHP 8.1+. Check these changes before upgrading:
+
+1. **Responsive images**: with `breakpoints`, the widget renders an `<img srcset sizes>` instead of a `<picture>` with `<source media>`. Update the CSS or JavaScript that targets `picture`, and add the `sizes` option when the image is not displayed full width (default `100vw`).
+2. **Cache**: resized file names now contain a hash of the source image. Previous files are no longer used: clear the image cache after the upgrade, new files are generated on first display.
+3. **Quality**: the default quality is now 85 (was 100). Set the `quality` option to keep another value.
+4. **Custom templates**: the `$image.url` and `$srcset` variables are available. A template built for 1.x still works, but does not output `srcset`.
+5. **PHP API**: the `$folder` argument of `imageResize()` is removed, resized images are always written in `img/web`.
