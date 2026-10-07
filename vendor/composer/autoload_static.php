@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitf15fe053389ca45be8317f88ab685bb1
 {
     public static $prefixLengthsPsr4 = array (
-        'P' => 
+        'P' =>
         array (
             'Pixel\\Module\\ImageOptimizer\\' => 28,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Pixel\\Module\\ImageOptimizer\\' => 
+        'Pixel\\Module\\ImageOptimizer\\' =>
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
@@ -22,6 +22,8 @@ class ComposerStaticInitf15fe053389ca45be8317f88ab685bb1
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'Pixel\\Module\\ImageOptimizer\\Controller\\Admin\\ImageController' => __DIR__ . '/../..' . '/src/Controller/Admin/ImageController.php',
+        'Pixel\\Module\\ImageOptimizer\\ImageResizer' => __DIR__ . '/../..' . '/src/ImageResizer.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
