@@ -14,6 +14,8 @@ Image optimizer module is an easy way to resize and compress images on the fly. 
 - PHP >= 8.1
 - GD extension (with WebP or AVIF support to convert images to these formats)
 
+Prestashop 1.7 is no longer supported since 2.0.0: use the [1.0.3 release](https://github.com/Pixel-Open/prestashop-image-optimizer/releases/tag/1.0.3).
+
 ## Installation
 
 Download the **pixel_image_optimizer.zip** file from the [last release](https://github.com/Pixel-Open/prestashop-image-optimizer/releases/latest) assets.

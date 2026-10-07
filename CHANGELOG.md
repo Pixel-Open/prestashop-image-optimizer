@@ -1,6 +1,7 @@
 ## 2.0.0
 
-- PrestaShop 9 compatibility, require PrestaShop 8.0+ and PHP 8.1+
+- PrestaShop 9 compatibility
+- Drop PrestaShop 1.7 support, require PrestaShop 8.0+ and PHP 8.1+
 - Responsive images with `srcset` and `sizes` instead of `<picture>`
 - New `image_url`, `sizes`, `loading` and `fetchpriority` options
 - Keep transparency, apply EXIF orientation, support WebP and AVIF
