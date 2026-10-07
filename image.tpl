@@ -1,12 +1,9 @@
-{if image}
-    {if $sources|count > 0}
-        <picture>
-            {foreach from=$sources item=source}
-                <source media="(max-width: {$source.width}px)" srcset="{$urls.base_url}{$source.path}" />
-            {/foreach}
-            <img src="{$urls.base_url}{$image.path}" alt="{$alt}" class="{$class}" loading="lazy" />
-        </picture>
-    {else}
-        <img src="{$urls.base_url}{$image.path}" alt="{$alt}" class="{$class}" width="{$image.width}" height="{$image.height}" loading="lazy" />
-    {/if}
+{if $image}
+    <img src="{$image.url|escape:'html':'UTF-8'}"
+        {if $srcset} srcset="{$srcset|escape:'html':'UTF-8'}" sizes="{$sizes|escape:'html':'UTF-8'}"{/if}
+        alt="{$alt|escape:'html':'UTF-8'}"
+        {if $class} class="{$class|escape:'html':'UTF-8'}"{/if}
+        {if $image.width && $image.height} width="{$image.width}" height="{$image.height}"{/if}
+        loading="{$loading}"
+        {if $fetchpriority} fetchpriority="{$fetchpriority}"{/if} />
 {/if}
